@@ -31,7 +31,7 @@ def softmax(x):
 
 def crossentropy(y, t):
     prob = C.squeeze(C.reduce_sum(y*t,axis=0),0)
-    return - C.reduce_mean(C.log(prob))
+    return -C.log(prob)
 
 #y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x), t, axis=1))
 y = crossentropy(softmax(forward(x)),t)
