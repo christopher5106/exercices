@@ -14,10 +14,10 @@ t = C.input_variable(shape=(3,), needs_gradient=False)
 init = C.initializer.normal(0.01)
 
 theta1 = C.Parameter(shape=(2, 12), init=init )
-bias1 = C.Parameter(shape=(12,), init=init )
+bias1 = C.Parameter(shape=(1, 12,), init=init )
 
 theta2 = C.Parameter(shape=(12,3), init=init )
-bias2 = C.Parameter(shape=(3,), init=init )
+bias2 = C.Parameter(shape=(1, 3,), init=init )
 
 def forward(x):
     y = C.times(x, theta1) + bias1
