@@ -8,8 +8,8 @@ labels[X[:, 0] > X[:,1]] = [0,0,1]
 labels[X[:, 0] <= X[:,1]] = [1,0,0]
 labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 
-x = C.input_variable(shape=(-1, 2,), needs_gradient=False)
-t = C.input_variable(shape=(-1, 3,), needs_gradient=False)
+x = C.input_variable(shape=(2,), needs_gradient=False)
+t = C.input_variable(shape=(3,), needs_gradient=False)
 
 init = C.initializer.normal(0.01)
 
@@ -26,11 +26,11 @@ def forward(x):
 
 def softmax(x):
     e = C.exp(x)
-    s = C.reduce_sum(e, axis=1)
+    s = C.reduce_sum(e)
     return e/s
 
 def crossentropy(y, t):
-    prob = C.squeeze(C.reduce_sum(y*t, axis=1), 1)
+    prob = C.reduce_sum(y*t)
     return - C.reduce_mean(C.log(prob))
 
 #y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x), t, axis=1))
@@ -47,12 +47,12 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     loss = y.eval({x:sample, t:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
 
-y = C.squeeze(C.argmax(forward(x), 1),1)
+y = C.argmax(z(x))
 accuracy = 0
 for i in range(1000):
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
-    tt = y.eval({x:sample})[0]
+    tt = y.eval({x:sample})
     accuracy += np.sum(tt == np.argmax(target, axis=1))
 
 print("Accuracy", accuracy / 1000. /batch_size)
