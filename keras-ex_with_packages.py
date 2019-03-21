@@ -31,13 +31,7 @@ def forward(x):
     y = K.maximum(y, 0.)
     return K.dot(y, theta2) + bias2
 
-def softmax(x):
-    e = K.exp(x)
-    s = K.sum(e, axis=1, keepdims=True)
-    return e/s
-
-
-
+from keras.activations import softmax
 
 loss = categorical_crossentropy(softmax(forward(x)),t)
 params= [theta1, bias1, theta2, bias2]
