@@ -8,8 +8,8 @@ labels[X[:, 0] > X[:,1]] = [0,0,1]
 labels[X[:, 0] <= X[:,1]] = [1,0,0]
 labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 
-x = C.input_variable( 2, needs_gradient=False)
-t = C.input_variable( 3, needs_gradient=False)
+x = C.input_variable(2, needs_gradient=False)
+t = C.input_variable(3, needs_gradient=False)
 
 z = C.layers.Sequential([
     C.layers.Dense(12, activation=C.relu),
@@ -18,14 +18,14 @@ z = C.layers.Sequential([
 y = C.cross_entropy_with_softmax(z(x),t)
 
 from cntk.learners import sgd
+lr = [(0.5 * .1 **i, 1000 * i) for i in range(100)]
+learner = sgd(z.parameters, lr)
 
 batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
-    lr = 0.5 * (.1 ** ( max(i - 100 , 0) // 1000))
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
     g = y.grad({x:sample, t:target}, wrt=z.parameters)
-    learner = sgd(z.parameters, lr)
     learner.update(g, batch_size)
     loss = y.eval({x:sample, t:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
