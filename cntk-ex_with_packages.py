@@ -11,13 +11,13 @@ labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 x = C.input_variable(shape=(-1, 2), needs_gradient=False)
 t = C.input_variable(shape=(-1, 3), needs_gradient=False)
 
-#y = C.reduce_mean((forward(x), t, axis=1))
-
 z = C.layers.Sequential([
     C.layers.Dense(12, activation=C.relu),
     C.layers.Dense(3)])
 
-y = C.reduce_mean(C.cross_entropy_with_softmax(z(x),t))
+print("shape", z(x).shape)
+
+y = C.reduce_mean(C.cross_entropy_with_softmax(z(x),t, axis=1))
 
 from cntk.learners import sgd
 learner = sgd(z.parameters, 0.5)
