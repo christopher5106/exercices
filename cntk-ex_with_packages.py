@@ -8,8 +8,8 @@ labels[X[:, 0] > X[:,1]] = [0,0,1]
 labels[X[:, 0] <= X[:,1]] = [1,0,0]
 labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 
-x = C.input_variable(shape=(-1, 2), needs_gradient=False)
-t = C.input_variable(shape=(-1, 3), needs_gradient=False)
+x = C.input_variable( 2, needs_gradient=False)
+t = C.input_variable( 3, needs_gradient=False)
 
 z = C.layers.Sequential([
     C.layers.Dense(12, activation=C.relu),
