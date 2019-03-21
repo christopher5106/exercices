@@ -1,7 +1,7 @@
 from keras import backend as K
 from keras import optimizers
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Input
 from keras.initializers import RandomNormal
 import numpy as np
 
