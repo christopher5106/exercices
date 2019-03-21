@@ -29,7 +29,8 @@ def forward(x):
 loss = categorical_crossentropy(softmax(forward(x)),t)
 params= [theta1, bias1, theta2, bias2]
 
-sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+# sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+sgd = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
 grad = sgd.get_gradients(loss,params)
 
 f = K.function([x,t], [loss]+grad)
