@@ -22,5 +22,5 @@ optimizer = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
 model.fit(X, labels, batch_size=20, epochs=1)
-model.evaluate(X, labels)
+print(model.evaluate(X, labels))
 # accuracy 99.44
