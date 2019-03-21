@@ -34,6 +34,7 @@ def crossentropy(y, t):
     return -C.log(prob)
 
 print(forward(x).shape)
+print(forward(x).eval({x:X[0:10]}))
 import sys
 sys.exit(0)
 #y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x), t, axis=1))
