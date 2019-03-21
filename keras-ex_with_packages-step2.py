@@ -20,11 +20,8 @@ model.add(Dense(12, kernel_initializer=initializer, activation='relu'))
 model.add(Dense(3, kernel_initializer=initializer, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='sgd')
 
-# sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-# sgd = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
-# grad = sgd.get_gradients(loss,params)
-
-# f = K.function([x,t], [loss]+grad)
+# opt = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+# opt = optimizers.Adagrad(lr=0.01, epsilon=None, decay=0.0)
 
 model.fit(X, labels, batch_size=20, nb_epochs=1)
 
