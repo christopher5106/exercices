@@ -1,7 +1,7 @@
 from keras import backend as K
 from keras import optimizers
 from keras.models import Sequential
-from keras.layers import Dense, Input
+from keras.layers import Dense
 from keras.initializers import RandomNormal
 import numpy as np
 
@@ -18,8 +18,7 @@ t = K.placeholder(shape=(None, 3))
 initializer = RandomNormal(mean=0.0, stddev=0.01, seed=None)
 
 model = Sequential()
-model.add(Input(shape=(2,)))
-model.add(Dense(12, kernel_initializer=initializer, activation='relu'))
+model.add(Dense(12, kernel_initializer=initializer, activation='relu', input_shape=(2,)))
 model.add(Dense(3, kernel_initializer=initializer, activation='softmax'))
 
 optimizer = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
