@@ -27,7 +27,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     g = y.grad({x:sample, t:target}, wrt=z.parameters)
     learner.update(g, batch_size)
     loss = y.eval({x:sample, t:target})
-    print("cost {} - learning rate {}".format(loss[0], learner.learning_rate()))
+    print("cost {} - learning rate {}".format(loss[0][0], learner.learning_rate()))
 
 y = C.argmax(z(x))
 accuracy = 0
