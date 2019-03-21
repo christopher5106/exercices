@@ -17,7 +17,7 @@ z = C.layers.Sequential([
     C.layers.Dense(12, activation=C.relu),
     C.layers.Dense(3)])
 
-y = C.reduce_mean(C.cross_entropy_with_softmax(z(x),t, axis=1))
+y = C.reduce_mean(C.cross_entropy_with_softmax(z(x),t))
 
 from cntk.learners import sgd
 learner = sgd(z.parameters, 0.5)
