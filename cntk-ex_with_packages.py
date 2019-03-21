@@ -34,7 +34,7 @@ def crossentropy(y, t):
     return - C.reduce_mean(C.log(prob))
 
 #y = C.reduce_mean((forward(x), t, axis=1))
-y = C.cross_entropy_with_softmax(forward(x),t, axis=1)
+y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x),t, axis=1))
 
 batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
