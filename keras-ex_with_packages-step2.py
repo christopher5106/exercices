@@ -1,5 +1,8 @@
 from keras import backend as K
 from keras import optimizers
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.initializers import RandomNormal
 import numpy as np
 
 dataset_size = 200000
@@ -12,7 +15,6 @@ labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 x = K.placeholder(shape=(None, 2))
 t = K.placeholder(shape=(None, 3))
 
-from keras.initializers import RandomNormal
 initializer = RandomNormal(mean=0.0, stddev=0.01, seed=None)
 
 model = Sequential()
