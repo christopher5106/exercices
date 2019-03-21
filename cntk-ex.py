@@ -26,11 +26,11 @@ def forward(x):
 
 def softmax(x):
     e = C.exp(x)
-    s = C.reduce_sum(e)
+    s = C.reduce_sum(e,axis=0)
     return e/s
 
 def crossentropy(y, t):
-    prob = C.squeeze(C.reduce_sum(y*t, axis=1), 1)
+    prob = C.squeeze(C.reduce_sum(y*t),axis=0)
     return - C.reduce_mean(C.log(prob))
 
 #y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x), t, axis=1))
