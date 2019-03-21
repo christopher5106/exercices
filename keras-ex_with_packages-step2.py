@@ -18,6 +18,7 @@ t = K.placeholder(shape=(None, 3))
 initializer = RandomNormal(mean=0.0, stddev=0.01, seed=None)
 
 model = Sequential()
+model.add(Input(shape=(2,)))
 model.add(Dense(12, kernel_initializer=initializer, activation='relu'))
 model.add(Dense(3, kernel_initializer=initializer, activation='softmax'))
 
