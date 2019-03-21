@@ -26,7 +26,7 @@ def forward(x):
 
 def softmax(x):
     e = C.exp(x)
-    s = C.reduce_sum(e, axis=-1)
+    s = C.reduce_sum(e)
     return e/s
 
 def crossentropy(y, t):
