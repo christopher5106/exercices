@@ -27,7 +27,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     lr = 0.5 * (.1 ** ( max(i - 100 , 0) // 1000))
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
-    g = y.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
+    g = y.grad({x:sample, t:target}, wrt=z.parameters)
     learner.update(g, batch_size)
     loss = y.eval({x:sample, t:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
