@@ -33,10 +33,10 @@ def crossentropy(y, t):
     prob = C.reduce_sum(y*t)
     return -C.log(prob)
 
-print(forward(x).shape)
-print((C.times(x, theta1)).eval({x:X[0:10],t:labels[:10]}))
-import sys
-sys.exit(0)
+# print(forward(x).shape)
+# print((C.times(x, theta1)).eval({x:X[0:10],t:labels[:10]}))
+# import sys
+# sys.exit(0)
 #y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x), t, axis=1))
 y = crossentropy(softmax(forward(x)),t)
 
