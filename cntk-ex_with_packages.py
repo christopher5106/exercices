@@ -11,25 +11,16 @@ labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 x = C.input_variable(shape=(-1, 2), needs_gradient=False)
 t = C.input_variable(shape=(-1, 3), needs_gradient=False)
 
-init = C.initializer.normal(0.01)
-
-theta1 = C.Parameter(shape=(2, 12), init=init )
-bias1 = C.Parameter(shape=(1, 12), init=init )
-
-theta2 = C.Parameter(shape=(12,3), init=init )
-bias2 = C.Parameter(shape=(1, 3,), init=init )
-
-def forward(x):
-    y = C.times(x, theta1) + bias1
-    y = C.element_max(y, 0.)
-    return C.times(y, theta2) + bias2
-
 #y = C.reduce_mean((forward(x), t, axis=1))
-y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x),t, axis=1))
+
+z = C.layers.Sequential([
+    C.layers.Dense(12, activation=C.relu),
+    C.layers.Dense(3)])
+
+y = C.reduce_mean(C.cross_entropy_with_softmax(z(x),t, axis=1))
 
 from cntk.learners import sgd
-
-learner = sgd([theta1, bias1, theta2, bias2], 0.5)
+learner = sgd(z.parameters, 0.5)
 
 batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
@@ -38,7 +29,6 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     target = labels[batch_size*i:batch_size*(i+1)]
     g = y.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
     learner.update(g, batch_size)
-
     loss = y.eval({x:sample, t:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
 
