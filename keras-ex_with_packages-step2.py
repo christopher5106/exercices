@@ -25,7 +25,7 @@ optimizer = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
 
-model.fit(X, labels, batch_size=20, nb_epochs=1)
+model.fit(X, labels, batch_size=20, nb_epoch=1)
 
 f = K.function([x], [K.argmax(forward(x),axis=1)])
 accuracy = 0
