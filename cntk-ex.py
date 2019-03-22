@@ -52,12 +52,12 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     loss = y1.eval({x1:sample, t1:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
 
-y = C.squeeze(C.argmax(forward(x), 1),1)
+y = C.squeeze(C.argmax(forward(x1), 1),1)
 accuracy = 0
 for i in range(1000):
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
-    tt = y.eval({x:sample})[0]
+    tt = y.eval({x:sample})
     accuracy += np.sum(tt == np.argmax(target, axis=1))
 
 print("Accuracy", accuracy / 1000. /batch_size)
