@@ -21,7 +21,7 @@ y = C.cross_entropy_with_softmax(z(x),t)
 
 batch_size = 20
 from cntk.learners import sgd, learning_parameter_schedule
-lr = learning_parameter_schedule([.5 *(.1**i) for i in range(10000)], minibatch_size=batch_size, epoch_size=1000)
+lr = learning_parameter_schedule([.5 *(.1**i) for i in range(10000)], minibatch_size=batch_size, epoch_size=1000*batch_size)
 learner = sgd(z.parameters, lr)
 
 for i in range(min(dataset_size, 100000) // batch_size ):
