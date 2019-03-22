@@ -36,12 +36,32 @@ def crossentropy(y, t):
 #y = C.reduce_mean(C.cross_entropy_with_softmax(forward(x), t, axis=1))
 y = crossentropy(softmax(forward(x)),t)
 
+x1 = C.input_variable(shape=(2,), needs_gradient=False)
+t1 = C.input_variable(shape=(3,), needs_gradient=False)
+def forward1(x):
+    y = C.times(x, theta1) + bias1
+    y = C.element_max(y, 0.)
+    return C.times(y, theta2) + bias2
+
+def softmax1(x):
+    e = C.exp(x)
+    s = C.reduce_sum(e, axis=1)
+    return e/s
+
+def crossentropy1(y, t):
+    prob = C.squeeze(C.reduce_sum(y*t, axis=1), 1)
+    return - C.reduce_mean(C.log(prob))
+y1 = crossentropy1(softmax1(forward1(x1)),t1)
+
 batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
     lr = 0.5 * (.1 ** ( max(i - 100 , 0) // 1000))
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
     g = y.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
+    g1 = y1.grad({x1:sample, t1:target}, wrt=[theta1, bias1, theta2, bias2])
+    print(g.shape, g1.shape)
+    print(g, g1)
     for param,grad in g.items():
         param.value = param.value - grad * lr
     loss = y.eval({x:sample, t:target})
