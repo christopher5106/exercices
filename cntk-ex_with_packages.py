@@ -11,9 +11,11 @@ labels[X[:,1] + X[:, 0] > 1] = [0, 1, 0]
 x = C.input_variable(shape=(2,), needs_gradient=False)
 t = C.input_variable(shape=(3,), needs_gradient=False)
 
-z = C.layers.Sequential([
-    C.layers.Dense(12, activation=C.relu),
-    C.layers.Dense(3)])
+init = C.initializer.normal(0.01)
+with C.layers.default_options(init=init):
+    z = C.layers.Sequential([
+        C.layers.Dense(12, activation=C.relu),
+        C.layers.Dense(3)])
 
 y = C.cross_entropy_with_softmax(z(x),t)
 
