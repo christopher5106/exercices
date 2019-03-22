@@ -39,9 +39,9 @@ y = crossentropy(softmax(forward(x)),t)
 x1 = C.input_variable(shape=(2,), needs_gradient=False)
 t1 = C.input_variable(shape=(3,), needs_gradient=False)
 def forward1(x):
-    y = C.times(x, theta1) + bias1[0]
+    y = C.times(x, theta1) + C.squeeze(bias1,0)
     y = C.element_max(y, 0.)
-    return C.times(y, theta2) + bias2[0]
+    return C.times(y, theta2) + C.squeeze(bias2,0)
 
 def softmax1(x):
     e = C.exp(x)
