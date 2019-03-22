@@ -61,7 +61,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     g = y.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
     g1 = y1.grad({x1:sample, t1:target}, wrt=[theta1, bias1, theta2, bias2])
     print("g", forward(x).eval({x:sample}))
-    print("g1", forward1(x1).eval({x1:sample))
+    print("g1", forward1(x1).eval({x1:sample}))
     for param,grad in g.items():
         param.value = param.value - grad * lr
     loss = y.eval({x:sample, t:target})
