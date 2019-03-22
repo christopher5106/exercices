@@ -18,20 +18,22 @@ bias2 = C.Parameter(shape=(1, 3,), init=init )
 
 x1 = C.input_variable(shape=(2,), needs_gradient=False)
 t1 = C.input_variable(shape=(3,), needs_gradient=False)
-def forward1(x):
+
+def forward(x):
     y = C.times(x, theta1) + C.squeeze(bias1,0)
     y = C.element_max(y, 0.)
     return C.times(y, theta2) + C.squeeze(bias2,0)
 
-def softmax1(x):
+def softmax(x):
     e = C.exp(x)
     s = C.reduce_sum(e, axis=0)
     return e/s
 
-def crossentropy1(y, t):
+def crossentropy(y, t):
     prob = C.squeeze(C.reduce_sum(y*t, axis=0), 0)
     return - C.log(prob)
-y1 = crossentropy1(softmax1(forward1(x1)),t1)
+
+y1 = crossentropy(softmax(forward(x1)),t1)
 
 batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
@@ -44,7 +46,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     loss = y1.eval({x1:sample, t1:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
 
-y1 = C.squeeze(C.argmax(forward1(x1), 1),1)
+y1 = C.squeeze(C.argmax(forward(x1), 1),1)
 accuracy = 0
 for i in range(1000):
     sample = X[batch_size*i:batch_size*(i+1)]
