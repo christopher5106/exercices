@@ -50,7 +50,7 @@ def softmax1(x):
 
 def crossentropy1(y, t):
     prob = C.squeeze(C.reduce_sum(y*t, axis=0), 0)
-    return - C.log(prob)
+    return - C.reduce_mean(C.unpack_batch(C.log(prob)))
 y1 = crossentropy1(softmax1(forward1(x1)),t1)
 
 batch_size = 20
