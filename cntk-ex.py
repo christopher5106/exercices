@@ -70,7 +70,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     print(forward(x).eval({x:sample}).shape, forward1(x1).eval({x1:sample}).shape)
     for param,grad in g.items():
         param.value = param.value - grad * lr
-    loss = y.eval({x:sample, t:target})
+    loss = y1.eval({x1:sample, t1:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
 
 y = C.squeeze(C.argmax(forward(x), 1),1)
