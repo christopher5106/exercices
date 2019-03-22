@@ -19,11 +19,11 @@ with C.layers.default_options(init=init):
 
 y = C.cross_entropy_with_softmax(z(x),t)
 
-from cntk.learners import sgd, learning_parameter_schedule_per_sample
-lr = learning_parameter_schedule_per_sample([.5 *(.1**i) for i in range(10000)], epoch_size=1000)
+batch_size = 20
+from cntk.learners import sgd, learning_parameter_schedule
+lr = learning_parameter_schedule([.5 *(.1**i) for i in range(10000)], minibatch_size=batch_size, epoch_size=1000)
 learner = sgd(z.parameters, lr)
 
-batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
