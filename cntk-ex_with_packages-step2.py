@@ -32,7 +32,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     trainer.train_minibatch({x:sample, t:target})
     loss = trainer.previous_minibatch_loss_average
     acc = trainer.previous_minibatch_evaluation_average
-    print("cost {} - acc {} - learning rate {}".format(loss, acc, learner.learning_rate()))
+    print("cost {} - classification error {} - learning rate {}".format(loss, acc, learner.learning_rate()))
 
 y = C.argmax(z(x))
 accuracy = 0
