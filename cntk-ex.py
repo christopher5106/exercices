@@ -40,8 +40,8 @@ x1 = C.input_variable(shape=(2,), needs_gradient=False)
 t1 = C.input_variable(shape=(3,), needs_gradient=False)
 def forward1(x):
     y = C.times(x, theta1) + bias1[0]
-    y = C.element_max(y, 0.)
-    return C.times(y, theta2) + bias2[0]
+    y = C.element_max((y), 0.)
+    return C.timeC.element_max(s()y, theta2) + bias2[0]
 
 def softmax1(x):
     e = C.exp(x)
@@ -60,7 +60,7 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     target = labels[batch_size*i:batch_size*(i+1)]
     g = y.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
     # g1 = y1.grad({x1:sample, t1:target}, wrt=[theta1, bias1, theta2, bias2])
-    print("g", x1.eval({x1:sample}), x1.eval({x1:sample}).shape)
+    print("g", C.element_max(x1).eval({x1:sample}), C.element_max(x1).eval({x1:sample}).shape)
     print("g", forward(x).eval({x:sample}))
     print("g1", forward1(x1).eval({x1:sample}))
     print(forward(x).eval({x:sample}).shape, forward1(x1).eval({x1:sample}).shape)
