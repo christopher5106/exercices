@@ -61,8 +61,8 @@ for i in range(min(dataset_size, 100000) // batch_size ):
     g = y.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
     # g1 = y1.grad({x1:sample, t1:target}, wrt=[theta1, bias1, theta2, bias2])
     # print("g", (C.times(x1, theta1)+ bias1[0]).eval({x1:sample}), (C.times(x1, theta1)+ bias1[0]).eval({x1:sample}).shape)
-    print("g", softmax(forward(x)).eval({x:sample}))
-    print("g1", softmax1(forward1(x1)).eval({x1:sample}))
+    print("g", crossentropy(softmax(forward(x))).eval({x:sample}))
+    print("g1", crossentropy1(softmax1(forward1(x1))).eval({x1:sample}))
     print(forward(x).eval({x:sample}).shape, forward1(x1).eval({x1:sample}).shape)
     for param,grad in g.items():
         param.value = param.value - grad * lr
