@@ -16,8 +16,8 @@ bias1 = C.Parameter(shape=(1, 12), init=init )
 theta2 = C.Parameter(shape=(12,3), init=init )
 bias2 = C.Parameter(shape=(1, 3,), init=init )
 
-x1 = C.input_variable(shape=(2,), needs_gradient=False)
-t1 = C.input_variable(shape=(3,), needs_gradient=False)
+x = C.input_variable(shape=(2,), needs_gradient=False)
+t = C.input_variable(shape=(3,), needs_gradient=False)
 
 def forward(x):
     y = C.times(x, theta1) + C.squeeze(bias1,0)
@@ -33,25 +33,25 @@ def crossentropy(y, t):
     prob = C.squeeze(C.reduce_sum(y*t, axis=0), 0)
     return - C.log(prob)
 
-y1 = crossentropy(softmax(forward(x1)),t1)
+y1 = crossentropy(softmax(forward(x)),t)
 
 batch_size = 20
 for i in range(min(dataset_size, 100000) // batch_size ):
     lr = 0.5 * (.1 ** ( max(i - 100 , 0) // 1000))
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
-    g = y1.grad({x1:sample, t1:target}, wrt=[theta1, bias1, theta2, bias2])
+    g = y1.grad({x:sample, t:target}, wrt=[theta1, bias1, theta2, bias2])
     for param,grad in g.items():
         param.value = param.value - grad * lr
-    loss = y1.eval({x1:sample, t1:target})
+    loss = y1.eval({x:sample, t:target})
     print("cost {} - learning rate {}".format(loss[0], lr))
 
-y1 = C.squeeze(C.argmax(forward(x1), 1),1)
+y1 = C.squeeze(C.argmax(forward(x), 1),1)
 accuracy = 0
 for i in range(1000):
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
-    tt = y1.eval({x1:sample})[0]
+    tt = y1.eval({x:sample})[0]
     accuracy += np.sum(tt == np.argmax(target, axis=1))
 
 print("Accuracy", accuracy / 1000. /batch_size)
