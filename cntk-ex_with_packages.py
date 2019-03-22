@@ -18,7 +18,7 @@ z = C.layers.Sequential([
 y = C.cross_entropy_with_softmax(z(x),t)
 
 from cntk.learners import sgd, learning_parameter_schedule
-lr = learning_parameter_schedule([.5 *.1**i for i in range(10000)], epoch_size=5000)
+lr = learning_parameter_schedule([.5 *.1**(i+1) for i in range(10000)], epoch_size=1000)
 learner = sgd(z.parameters, lr)
 
 batch_size = 20
