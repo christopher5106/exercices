@@ -57,7 +57,7 @@ accuracy = 0
 for i in range(1000):
     sample = X[batch_size*i:batch_size*(i+1)]
     target = labels[batch_size*i:batch_size*(i+1)]
-    tt = y.eval({x:sample})
+    tt = y.eval({x1:sample})
     accuracy += np.sum(tt == np.argmax(target, axis=1))
 
 print("Accuracy", accuracy / 1000. /batch_size)
